@@ -1,0 +1,68 @@
+
+	import java.io.IOException;
+	import java.io.PrintWriter;
+	import java.sql.Connection;
+	import java.sql.DriverManager;
+	import java.sql.PreparedStatement;
+	import java.sql.ResultSet;
+	import java.sql.SQLException;
+
+	import javax.servlet.ServletException;
+	import javax.servlet.http.HttpServlet;
+	import javax.servlet.http.HttpServletRequest;
+	import javax.servlet.http.HttpServletResponse;
+	//import com.mysql.cj.jdbc.Driver;
+	public class getresult extends HttpServlet {
+
+		String url ="jdbc:mysql://localhost:3306/std_infos";
+		String un = "root";
+		String pw = "mahi@#123";
+		Connection con = null;
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+
+		public void init()  {
+			
+
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				//DriverManager.registerDriver(new Driver());
+	            System.out.println("MySQL Driver registered successfully.");
+				con = DriverManager.getConnection(url, un, pw);
+				System.out.println("Connection established successfully");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		public void service(HttpServletRequest x, HttpServletResponse y) throws ServletException, IOException {
+			try {
+				pstmt=con.prepareStatement("SELECT * FROM info WHERE ID=?");
+				String usn=x.getParameter("usn");
+				pstmt.setString(1,usn);
+				res=pstmt.executeQuery();
+				System.out.println("Query executed Successfully");
+				while(res.next()==true)
+				{
+					String u=res.getString(1);
+					String n=res.getString(2);
+					int m1=res.getInt(3) ;
+					int m2=res.getInt(4);
+					int m3=res.getInt(5);
+					PrintWriter p=y.getWriter();
+					p.println(u);
+					p.println(n);
+					p.println(m1);
+					p.println(m2);
+					p.println(m3);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+	}

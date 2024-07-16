@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Servlet Program</title>
+</head>
+<body>
+<form action="http://localhost:8081/Servlet2/GetResult">
+<label><h4>USN:</h4></label>
+<input type="text" name="usn">
+<input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
